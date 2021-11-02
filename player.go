@@ -16,6 +16,19 @@ type player struct {
 	hasKey    bool
 }
 
+type monster struct {
+	health       int
+	species      string
+	attackDamage int
+}
+
+//monster attack method
+func (m monster) Attack(p player) player {
+	fmt.Printf("The %v attacked you and did %v damage!\n", m.species, m.attackDamage)
+	p.health -= m.attackDamage
+	return p
+}
+
 //prints the player's stats
 func (p player) PrintStats() {
 	fmt.Printf("\n\n***************************************************\n\n")
@@ -35,17 +48,16 @@ func (p player) Attack(m monster) monster {
 func dead() {
 	fmt.Printf("\n\n***************************************************\n\n")
 	fmt.Println("You died like so many before you have...")
-	fmt.Println("Bring more potions next time...")
+	fmt.Printf("Bring more potions next time...\n\n")
 	fmt.Println("Would you like to play again?")
 
-	//// TODO: test this
 	input := bufio.NewReader(os.Stdin)
 	answer, _ := input.ReadString('\n')
 
-	if answer == "yes" {
+	if answer == "yes\n" {
 		main()
 	} else {
-		fmt.Println("Thanks for playing!")
+		fmt.Printf("\nThanks for playing!\n")
 		os.Exit(0)
 	}
 }
