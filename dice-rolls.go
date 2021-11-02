@@ -14,8 +14,6 @@ func attack(p player) player {
 		species:      "Draugr",
 		attackDamage: 5,
 	}
-
-	fmt.Printf("\n\n***************************************************\n\n")
 	//attack sequence
 	for draugr.health > 0 {
 		draugr = p.Attack(draugr) //player attacks monster
@@ -30,23 +28,19 @@ func attack(p player) player {
 			break
 		}
 	}
-	fmt.Printf("\n\n***************************************************\n\n")
 	return p
 }
 
 //dice roll #2
 func findGold(p player) player {
 	foundGold := randInt(1, 15)
-	fmt.Printf("\n\n***************************************************\n\n")
 	fmt.Printf("You found %v pieces of gold!\n", foundGold)
-	fmt.Printf("\n\n***************************************************\n\n")
 	p.gold += foundGold
 	return p
 }
 
 //dice roll #3
 func itsATrap(p player) player {
-	fmt.Printf("\n\n***************************************************\n\n")
 	fmt.Println("You walk down a tunnel and feel something odd under your foot...")
 	number := randInt(0, 3)
 
@@ -69,13 +63,11 @@ func itsATrap(p player) player {
 		p.health -= damage
 		fmt.Printf("You lost %v health\n", damage)
 	}
-	fmt.Printf("\n\n***************************************************\n\n")
 	return p
 }
 
 //dice roll #4
 func lockedDoor(p player) player {
-	fmt.Printf("\n\n***************************************************\n\n")
 	fmt.Println("You reach a door.")
 	fmt.Println("You turn the handle. It's locked.")
 	if p.hasKey == true {
@@ -85,13 +77,11 @@ func lockedDoor(p player) player {
 	} else {
 		fmt.Println("You don't have a key. You continue on.")
 	}
-	fmt.Printf("\n\n***************************************************\n\n")
 	return p
 }
 
 //dice roll #5
 func deadGuy(p player) player {
-	fmt.Printf("\n\n***************************************************\n\n")
 	fmt.Println("You find a dead body...looks like he died a while ago...")
 	fmt.Println("You look through the pockets and backpack...")
 	number := randInt(0, 3)
@@ -99,9 +89,11 @@ func deadGuy(p player) player {
 		foundGold := randInt(1, 30)
 		fmt.Printf("You found %v gold in the backpack!\n", foundGold)
 		p.gold += foundGold
+	} else if number == 2 {
+		fmt.Println("You found a key in their pocket and wonder if it will be useful later.")
+		p.hasKey = true
 	} else {
 		fmt.Println("But they're empty...looks like someone already got to him.")
 	}
-	fmt.Printf("\n\n***************************************************\n\n")
 	return p
 }

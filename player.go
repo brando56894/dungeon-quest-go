@@ -31,9 +31,7 @@ func (m monster) Attack(p player) player {
 
 //prints the player's stats
 func (p player) PrintStats() {
-	fmt.Printf("\n\n***************************************************\n\n")
 	fmt.Printf("Current Health: %v\nInventory: %v\nXP: %v\n", p.health, p.inventory, p.xp)
-	fmt.Printf("\n\n***************************************************\n\n")
 }
 
 //player attack method
@@ -46,7 +44,6 @@ func (p player) Attack(m monster) monster {
 
 //you died
 func dead() {
-	fmt.Printf("\n\n***************************************************\n\n")
 	fmt.Println("You died like so many before you have...")
 	fmt.Printf("Bring more potions next time...\n\n")
 	fmt.Println("Would you like to play again?")

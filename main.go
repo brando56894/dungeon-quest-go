@@ -4,46 +4,13 @@ import (
 	"fmt"
 	"math/rand"
 	"time"
+	"github.com/GeistInDerSH/clearscreen"
+	"bufio"
+	"strings"
+	"os"
 )
 
 const version = "1.1"
-
-//generates a random integer between to integers and returns it
-func randInt(min, max int) int {
-	return 1 + rand.Intn(max-min)
-}
-
-//main part of the game
-func explore(p player) {
-	fmt.Printf("As you step foot into the dungeon, you mentally prepare yourself for the horrors ahead.\n\n")
-
-	//continues the game until the player dies
-	for p.health > 0 {
-		fmt.Println("Player Health: ", p.health)
-		//roll a 6 sided di
-		diceRoll := randInt(1, 6)
-		fmt.Printf("You rolled a %v\n", diceRoll)
-
-		switch diceRoll {
-		//these are all in dice-rolls.go
-		case 1:
-			p = attack(p)
-		case 2:
-			p = findGold(p)
-		case 3:
-			p = itsATrap(p)
-		case 4:
-			p = lockedDoor(p)
-		case 5:
-			fmt.Printf("\n\n***************************************************\n\n")
-			fmt.Println("And nothing happened. You're safe.")
-			fmt.Printf("\n\n***************************************************\n\n")
-		}
-	}
-	if p.health <= 0 {
-		dead()
-	}
-}
 
 func main() {
 	//seeding the random number generator with the current time
@@ -61,5 +28,71 @@ func main() {
 	}
 
 	//starts the actual game
-	explore(adventurer)
+	//explore(adventurer)
+	menu(adventurer)
+}
+
+func menu(p player) {
+	fmt.Println(strings.Repeat("*", 15))
+	fmt.Println("* Explore")
+	fmt.Println("* Store")
+	fmt.Println("* Exit")
+	fmt.Println(strings.Repeat("*", 15))
+	fmt.Printf("\nWhat would you like to do?  ")
+	input := bufio.NewReader(os.Stdin)
+	answer, _ := input.ReadString('\n')
+
+	switch strings.ToLower(strings.TrimRight(answer, "\n")) {
+	case "explore":
+		explore(p)
+		time.Sleep(5 * time.Second)
+		clearscreen.ClearScreen()
+	case "exit":
+	  os.Exit(0)
+	case "store":
+		fmt.Println("Store is closed. Come back later.")
+		time.Sleep(3 * time.Second)
+		clearscreen.ClearScreen()
+		menu(p)
+	default:
+		fmt.Println("Unknown option")
+		time.Sleep(3 * time.Second)
+		clearscreen.ClearScreen()
+		menu(p)
+	}
+}
+
+//generates a random integer between to integers and returns it
+func randInt(min, max int) int {
+	return 1 + rand.Intn(max-min)
+}
+
+//main part of the game
+func explore(p player) {
+		clearscreen.ClearScreen()
+		//roll a 6 sided di
+		diceRoll := randInt(1, 6)
+		fmt.Printf("You rolled a %v\n", diceRoll)
+
+		switch diceRoll {
+		//these are all in dice-rolls.go
+		case 1:
+			p = attack(p)
+		case 2:
+			p = findGold(p)
+		case 3:
+			p = itsATrap(p)
+		case 4:
+			p = lockedDoor(p)
+		case 5:
+			p = deadGuy(p)
+		case 6:
+			fmt.Println("And nothing happened. You're safe.")
+		}
+
+	if p.health <= 0 {
+		dead()
+	} else {
+		menu(p)
+	}
 }
