@@ -20,7 +20,9 @@ func attack(p player) player {
 	for draugr.health > 0 {
 		draugr = p.Attack(draugr) //player attacks monster
 		p = draugr.Attack(p)      //monster attacks player
+		fmt.Println("")
 		if p.health <= 0 {
+			fmt.Println("...and everything goes black...")
 			//ends the game
 			dead()
 		} else if draugr.health <= 0 {
@@ -46,9 +48,8 @@ func findGold(p player) player {
 func itsATrap(p player) player {
 	fmt.Printf("\n\n***************************************************\n\n")
 	fmt.Println("You walk down a tunnel and feel something odd under your foot...")
-	number := randInt(0, 4)
+	number := randInt(0, 3)
 
-	//doesn't trigger all the time apparently
 	switch number {
 	case 0:
 		fmt.Println("Eww! It's a dead rat!")
