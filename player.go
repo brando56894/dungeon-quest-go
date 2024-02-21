@@ -23,11 +23,6 @@ func (m Monster) Attack(p player) player {
 	return p
 }
 
-// prints the player's stats
-func (p player) PrintStats() {
-	fmt.Printf("Current Health: %v\nInventory: %v\nXP: %v\n", p.health, p.inventory, p.xp)
-}
-
 // player attack method
 func (p player) Attack(m Monster) Monster {
 	damage := 10
