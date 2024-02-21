@@ -36,6 +36,7 @@ func main() {
 func menu(p player) {
 	fmt.Println(strings.Repeat("*", 15))
 	fmt.Println("* Explore")
+	fmt.Println("* Player Status")
 	fmt.Println("* Store")
 	fmt.Println("* Exit")
 	fmt.Println(strings.Repeat("*", 15))
@@ -48,6 +49,16 @@ func menu(p player) {
 		explore(p)
 		time.Sleep(5 * time.Second)
 		clearscreen.ClearScreen()
+	case "player status":
+		fmt.Println()
+		fmt.Printf("Health: %v\n", p.health)
+		fmt.Printf("Experience Points: %v\n", p.xp)
+		fmt.Printf("Carried Gold: %v\n", p.gold)
+		fmt.Printf("Inventory: %v\n", p.inventory[0]) //only one item currently in the inventory
+		fmt.Printf("Has Key: %v\n", p.hasKey)
+		time.Sleep(3 * time.Second)
+		clearscreen.ClearScreen()
+		menu(p)
 	case "exit":
 		os.Exit(0)
 	case "store":
