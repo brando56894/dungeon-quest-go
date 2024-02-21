@@ -17,6 +17,7 @@ func main() {
 	//seeding the random number generator with the current time
 	rand.Seed(time.Now().UnixNano())
 
+	clearscreen.ClearScreen()
 	fmt.Println("Welcome to Dungeon Quest!")
 	fmt.Printf("Version: %v\n\n", version)
 
