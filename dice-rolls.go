@@ -6,25 +6,50 @@ import (
 	"fmt"
 )
 
+type Monster struct {
+	health       int
+	species      string
+	attackDamage int
+}
+
 // dice roll #1
 func attack(p player) player {
-	//creating a monster from the struct in monsters.go
-	draugr := monster{
-		health:       20,
-		species:      "Draugr",
-		attackDamage: 5,
+	var monster Monster
+
+	//creating a monster
+	monsterNumber := randInt(0, 4)
+	switch monsterNumber {
+	case 1:
+		monster = Monster{
+			health:       randInt(9, 16),
+			species:      "Draugr",
+			attackDamage: randInt(2, 7),
+		}
+	case 2:
+		monster = Monster{
+			health:       randInt(11, 19),
+			species:      "Demon",
+			attackDamage: randInt(4, 9),
+		}
+	case 3:
+		monster = Monster{
+			health:       randInt(13, 22),
+			species:      "Eyeless Creeper",
+			attackDamage: randInt(5, 10),
+		}
 	}
+
 	//attack sequence
-	for draugr.health > 0 {
-		draugr = p.Attack(draugr) //player attacks monster
-		p = draugr.Attack(p)      //monster attacks player
+	for monster.health > 0 {
+		monster = p.Attack(monster) //player attacks monster
+		p = monster.Attack(p)       //monster attacks player
 		fmt.Println("")
 		if p.health <= 0 {
 			fmt.Println("...and everything goes black...")
 			//ends the game
 			dead()
-		} else if draugr.health <= 0 {
-			fmt.Println("You killed the draugr!")
+		} else if monster.health <= 0 {
+			fmt.Printf("You killed the %v!\n", monster.species)
 			break
 		}
 	}

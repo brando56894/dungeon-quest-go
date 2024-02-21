@@ -16,14 +16,8 @@ type player struct {
 	hasKey    bool
 }
 
-type monster struct {
-	health       int
-	species      string
-	attackDamage int
-}
-
 // monster attack method
-func (m monster) Attack(p player) player {
+func (m Monster) Attack(p player) player {
 	fmt.Printf("The %v attacked you and did %v damage!\n", m.species, m.attackDamage)
 	p.health -= m.attackDamage
 	return p
@@ -35,7 +29,7 @@ func (p player) PrintStats() {
 }
 
 // player attack method
-func (p player) Attack(m monster) monster {
+func (p player) Attack(m Monster) Monster {
 	damage := 10
 	fmt.Printf("You atacked the %v and did %v damage!\n", m.species, damage)
 	m.health -= damage
