@@ -6,7 +6,7 @@ import (
 	"fmt"
 )
 
-//dice roll #1
+// dice roll #1
 func attack(p player) player {
 	//creating a monster from the struct in monsters.go
 	draugr := monster{
@@ -31,7 +31,7 @@ func attack(p player) player {
 	return p
 }
 
-//dice roll #2
+// dice roll #2
 func findGold(p player) player {
 	foundGold := randInt(1, 15)
 	fmt.Printf("You found %v pieces of gold!\n", foundGold)
@@ -39,7 +39,7 @@ func findGold(p player) player {
 	return p
 }
 
-//dice roll #3
+// dice roll #3
 func itsATrap(p player) player {
 	fmt.Println("You walk down a tunnel and feel something odd under your foot...")
 	number := randInt(0, 3)
@@ -66,21 +66,19 @@ func itsATrap(p player) player {
 	return p
 }
 
-//dice roll #4
+// dice roll #4
 func lockedDoor(p player) player {
-	fmt.Println("You reach a door.")
-	fmt.Println("You turn the handle. It's locked.")
-	if p.hasKey == true {
+	fmt.Println("You reach a door and you turn the handle. It's locked though....")
+	if p.hasKey {
 		foundGold := randInt(10, 40)
-		fmt.Printf("You found a chest with %v gold in it!\n", foundGold)
+		fmt.Println("You use the key you found earlier...")
+		fmt.Printf("Inside the room you found a chest with %v gold in it!\n", foundGold)
 		p.gold += foundGold
-	} else {
-		fmt.Println("You don't have a key. You continue on.")
 	}
 	return p
 }
 
-//dice roll #5
+// dice roll #5
 func deadGuy(p player) player {
 	fmt.Println("You find a dead body...looks like he died a while ago...")
 	fmt.Println("You look through the pockets and backpack...")

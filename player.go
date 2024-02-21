@@ -22,19 +22,19 @@ type monster struct {
 	attackDamage int
 }
 
-//monster attack method
+// monster attack method
 func (m monster) Attack(p player) player {
 	fmt.Printf("The %v attacked you and did %v damage!\n", m.species, m.attackDamage)
 	p.health -= m.attackDamage
 	return p
 }
 
-//prints the player's stats
+// prints the player's stats
 func (p player) PrintStats() {
 	fmt.Printf("Current Health: %v\nInventory: %v\nXP: %v\n", p.health, p.inventory, p.xp)
 }
 
-//player attack method
+// player attack method
 func (p player) Attack(m monster) monster {
 	damage := 10
 	fmt.Printf("You atacked the %v and did %v damage!\n", m.species, damage)
@@ -42,8 +42,9 @@ func (p player) Attack(m monster) monster {
 	return m
 }
 
-//you died
+// you died
 func dead() {
+	fmt.Println("")
 	fmt.Println("You died like so many before you have...")
 	fmt.Printf("Bring more potions next time...\n\n")
 	fmt.Println("Would you like to play again?")

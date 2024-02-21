@@ -1,16 +1,17 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"math/rand"
-	"time"
-	"github.com/GeistInDerSH/clearscreen"
-	"bufio"
-	"strings"
 	"os"
+	"strings"
+	"time"
+
+	"github.com/GeistInDerSH/clearscreen"
 )
 
-const version = "1.1"
+const version = "1.1.1"
 
 func main() {
 	//seeding the random number generator with the current time
@@ -28,7 +29,6 @@ func main() {
 	}
 
 	//starts the actual game
-	//explore(adventurer)
 	menu(adventurer)
 }
 
@@ -48,7 +48,7 @@ func menu(p player) {
 		time.Sleep(5 * time.Second)
 		clearscreen.ClearScreen()
 	case "exit":
-	  os.Exit(0)
+		os.Exit(0)
 	case "store":
 		fmt.Println("Store is closed. Come back later.")
 		time.Sleep(3 * time.Second)
@@ -62,37 +62,39 @@ func menu(p player) {
 	}
 }
 
-//generates a random integer between to integers and returns it
+// generates a random integer between two integers and returns it
 func randInt(min, max int) int {
 	return 1 + rand.Intn(max-min)
 }
 
-//main part of the game
+// main part of the game
 func explore(p player) {
-		clearscreen.ClearScreen()
-		//roll a 6 sided di
-		diceRoll := randInt(1, 6)
-		fmt.Printf("You rolled a %v\n", diceRoll)
+	clearscreen.ClearScreen()
+	//roll a 6 sided dice
+	diceRoll := randInt(1, 6)
+	fmt.Printf("You rolled a %v\n", diceRoll)
 
-		switch diceRoll {
-		//these are all in dice-rolls.go
-		case 1:
-			p = attack(p)
-		case 2:
-			p = findGold(p)
-		case 3:
-			p = itsATrap(p)
-		case 4:
-			p = lockedDoor(p)
-		case 5:
-			p = deadGuy(p)
-		case 6:
-			fmt.Println("And nothing happened. You're safe.")
-		}
+	switch diceRoll {
+	//these are all in dice-rolls.go
+	case 1:
+		p = attack(p)
+	case 2:
+		p = findGold(p)
+	case 3:
+		p = itsATrap(p)
+	case 4:
+		p = lockedDoor(p)
+	case 5:
+		p = deadGuy(p)
+	case 6:
+		fmt.Println("And nothing happened. You're safe.")
+	}
 
 	if p.health <= 0 {
 		dead()
 	} else {
+		time.Sleep(3 * time.Second)
+		clearscreen.ClearScreen()
 		menu(p)
 	}
 }
