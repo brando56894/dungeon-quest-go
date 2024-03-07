@@ -14,35 +14,35 @@ func createMonster() Monster {
 
 	//creating a monster
 	//fmt.Println("monsterNumber random int")
-	monsterNumber := randInt(2, 6)
+	monsterNumber := rollDice(1, 4)
 	switch monsterNumber {
 	case 1:
 		//fmt.Println("draugr health and attack")
 		monster = Monster{
-			Health:       randInt(16, 50),
+			Health:       rollDice(4, 8),
 			Species:      "Draugr",
-			AttackDamage: randInt(6, 20),
+			AttackDamage: rollDice(2, 4),
 		}
 	case 2:
 		//fmt.Println("demon health and attack")
 		monster = Monster{
-			Health:       randInt(22, 70),
+			Health:       rollDice(4, 12),
 			Species:      "Demon",
-			AttackDamage: randInt(8, 25),
+			AttackDamage: rollDice(2, 6),
 		}
 	case 3:
 		//fmt.Println("eyeless creeper health and attack")
 		monster = Monster{
-			Health:       randInt(26, 90),
+			Health:       rollDice(4, 16),
 			Species:      "Eyeless Creeper",
-			AttackDamage: randInt(10, 30),
+			AttackDamage: rollDice(2, 8),
 		}
 	default:
 		//fmt.Println("default skeleton health and attack")
 		monster = Monster{
-			Health:       randInt(16, 50),
+			Health:       rollDice(4, 11),
 			Species:      "Skeleton",
-			AttackDamage: randInt(6, 20),
+			AttackDamage: rollDice(2, 5),
 		}
 	}
 
@@ -87,7 +87,7 @@ func monsterAttack(p Player) Player {
 		case "u":
 			usePotion(p)
 		case "r":
-			if randInt(1, 26)%2 == 0 {
+			if rollDice(1, 26)%2 == 0 {
 				fmt.Println("You were able to get away.")
 				menu(p)
 			} else {

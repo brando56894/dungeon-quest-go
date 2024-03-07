@@ -10,6 +10,7 @@ import (
 
 	"github.com/GeistInDerSH/clearscreen"
 	"github.com/fatih/color"
+	"github.com/justinian/dice"
 )
 
 const version = "1.2"
@@ -82,29 +83,30 @@ func playerStatus(p Player) {
 	menu(p)
 }
 
-// generates a random integer between two integers and returns it
-func randInt(min, max int) int {
-	//color.Yellow("min: %v\nmax: %v\n", min, max)
-	num := rand.Intn(max - min)
-	//color.Yellow("number generated: %v\n", num)
-	//color.Yellow("plus min: %v\n\n", min+num)
+// rollDice rolls x dice with y number of sides
+func rollDice(numberOfDice int, diceSides int) int {
+	result, _, err := dice.Roll(fmt.Sprintf("%vd%v", numberOfDice, diceSides))
+	//color.Yellow("result: %v, string: %v, err: %v\n", result, string, err)
 	//time.Sleep(2 * time.Second)
 
-	return min + num
+	if err != nil {
+		fmt.Println("dice.Roll: ", err)
+		os.Exit(1)
+	}
+
+	return result.Int()
 }
 
 // main part of the game
 func explore(p Player) {
 	clearscreen.ClearScreen()
 
-	roll := randInt(1, 15)
-
-	switch roll {
+	switch rollDice(1, 6) {
 	//these are all in dice-rolls.go
 	case 1:
 		p = monsterAttack(p)
 	case 2:
-		foundGold := randInt(1, 15)
+		foundGold := rollDice(1, 15)
 		color.Yellow("You found %v pieces of gold!\n", foundGold)
 		p.Gold += foundGold
 	case 3:
