@@ -6,6 +6,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/GeistInDerSH/clearscreen"
 	"github.com/fatih/color"
@@ -21,14 +22,27 @@ type Player struct {
 	MonstersKilled int
 }
 
-// Player attack method
+// playerAttack Player attack method
 func (p Player) playerAttack(m Monster) Monster {
 	clearscreen.ClearScreen()
-	//fmt.Println("playerAttack()")
 	damage := rollDice(2, 8)
 	color.Green("You attacked the %v and did %v damage!\n", m.Species, damage)
 	m.Health -= damage
 	return m
+}
+
+// playerStatus prints the player's vital stats and inventory
+func playerStatus(p Player) {
+	fmt.Println()
+	color.Magenta("Health: %v\n", p.Health)
+	color.Magenta("Experience Points: %v\n", p.XP)
+	color.Magenta("Carried Gold: %v\n", p.Gold)
+	color.Magenta("Weapons: %v\n", p.Weapons[0]) //only one weapon right now
+	color.Magenta("Potions: %v\n", p.Potions)
+	color.Magenta("Has Key: %v\n", p.HasKey)
+	time.Sleep(3 * time.Second)
+	clearscreen.ClearScreen()
+	menu(p)
 }
 
 // drink a health potion

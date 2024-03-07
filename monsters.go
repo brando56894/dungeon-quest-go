@@ -9,6 +9,12 @@ import (
 	"github.com/fatih/color"
 )
 
+type Monster struct {
+	Health       int
+	Species      string
+	AttackDamage int
+}
+
 func createMonster() Monster {
 	var monster Monster
 

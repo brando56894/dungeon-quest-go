@@ -70,19 +70,6 @@ func menu(p Player) {
 	}
 }
 
-func playerStatus(p Player) {
-	fmt.Println()
-	color.Magenta("Health: %v\n", p.Health)
-	color.Magenta("Experience Points: %v\n", p.XP)
-	color.Magenta("Carried Gold: %v\n", p.Gold)
-	color.Magenta("Weapons: %v\n", p.Weapons[0]) //only one weapon right now
-	color.Magenta("Potions: %v\n", p.Potions)
-	color.Magenta("Has Key: %v\n", p.HasKey)
-	time.Sleep(3 * time.Second)
-	clearscreen.ClearScreen()
-	menu(p)
-}
-
 // rollDice rolls x dice with y number of sides
 func rollDice(numberOfDice int, diceSides int) int {
 	result, _, err := dice.Roll(fmt.Sprintf("%vd%v", numberOfDice, diceSides))
@@ -97,12 +84,11 @@ func rollDice(numberOfDice int, diceSides int) int {
 	return result.Int()
 }
 
-// main part of the game
+// explore moves the player through the dungeon
 func explore(p Player) {
 	clearscreen.ClearScreen()
 
 	switch rollDice(1, 6) {
-	//these are all in dice-rolls.go
 	case 1:
 		p = monsterAttack(p)
 	case 2:
@@ -110,11 +96,55 @@ func explore(p Player) {
 		color.Yellow("You found %v pieces of gold!\n", foundGold)
 		p.Gold += foundGold
 	case 3:
-		p = itsATrap(p)
+		fmt.Println("You walk down a tunnel and feel something odd under your foot...")
+		var damage int
+
+		switch rollDice(1, 3) {
+		case 1:
+			fmt.Println("AHHH!!FIRE!!!! IT BURNS!!!")
+			damage = rollDice(1, 14)
+		case 2:
+			fmt.Println("You were shot by an arrow trap!")
+			damage = rollDice(1, 4)
+		case 3:
+			fmt.Println("You were hit by a spring-loaded spiked trap!")
+			damage = rollDice(1, 8)
+		}
+
+		p.Health -= damage
+		color.Red("You lost %v health\n", damage)
 	case 4:
-		p = lockedDoor(p)
+		fmt.Println("You reach a door and you turn the handle. It's locked though....")
+		if p.HasKey {
+			foundGold := rollDice(2, 10)
+			fmt.Println("You use the key you found earlier...")
+			color.Yellow("Inside the room you found a chest with %v gold in it!\n", foundGold)
+			p.Gold += foundGold
+		}
 	case 5:
-		p = deadGuy(p)
+		fmt.Println("You find a dead body...looks like he died a while ago...")
+		fmt.Println("You look through the pockets and backpack...")
+		switch rollDice(1, 4) {
+		case 1:
+			foundGold := rollDice(1, 15)
+			color.Yellow("You found %v gold in the backpack!\n", foundGold)
+			p.Gold += foundGold
+		case 2:
+			if p.HasKey {
+				foundPotions := rollDice(1, 4)
+				p.Potions += foundPotions
+				color.Cyan("You find %v potions!\n", foundPotions)
+			} else {
+				fmt.Println("You found a key in their pocket and wonder if it will be useful later.")
+				p.HasKey = true
+			}
+		case 3:
+			foundPotions := rollDice(1, 4)
+			p.Potions += foundPotions
+			color.Cyan("You find %v potions!\n", foundPotions)
+		case 4:
+			fmt.Println("But they're empty...looks like someone already got to him.")
+		}
 	default:
 		fmt.Println("Nothing happened. You're safe.")
 	}
