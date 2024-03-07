@@ -8,6 +8,7 @@ import (
 	"os"
 
 	"github.com/GeistInDerSH/clearscreen"
+	"github.com/fatih/color"
 )
 
 type Player struct {
@@ -25,7 +26,7 @@ func (p Player) playerAttack(m Monster) Monster {
 	clearscreen.ClearScreen()
 	//fmt.Println("playerAttack()")
 	damage := randInt(5, 25)
-	fmt.Printf("You attacked the %v and did %v damage!\n", m.Species, damage)
+	color.Green("You attacked the %v and did %v damage!\n", m.Species, damage)
 	m.Health -= damage
 	return m
 }
@@ -35,7 +36,7 @@ func usePotion(p Player) Player {
 	if p.Potions >= 1 {
 		p.Potions -= 1
 		p.Health += randInt(16, 32)
-		fmt.Printf("You drank a health potion. Your health is now %v\n", p.Health)
+		color.Cyan("You drank a health potion. Your health is now %v\n", p.Health)
 	} else {
 		fmt.Println("You don't have any health potions.")
 	}
@@ -44,9 +45,9 @@ func usePotion(p Player) Player {
 
 // you died
 func dead(p Player) {
-	fmt.Printf("\nYou died like so many before you have...")
+	color.Red("\nYou died like so many before you have...")
 	fmt.Println("Bring more potions next time...")
-	fmt.Printf("You killed %v monsters before you died. \n\n", p.MonstersKilled)
+	color.White("You killed %v monsters before you died. \n\n", p.MonstersKilled)
 	fmt.Println("Would you like to play again?")
 
 	input := bufio.NewReader(os.Stdin)

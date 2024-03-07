@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
+	"github.com/fatih/color"
 )
 
 func createMonster() Monster {
@@ -49,7 +51,7 @@ func createMonster() Monster {
 
 // monster attack method
 func (m Monster) monsterAttacksYou(p Player) Player {
-	fmt.Printf("The %v attacked you and did %v damage!\n\n", m.Species, m.AttackDamage)
+	color.Red("The %v attacked you and did %v damage!\n\n", m.Species, m.AttackDamage)
 	p.Health -= m.AttackDamage
 	return p
 }

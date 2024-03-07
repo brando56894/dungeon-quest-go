@@ -4,6 +4,8 @@ package main
 
 import (
 	"fmt"
+
+	"github.com/fatih/color"
 )
 
 type Monster struct {
@@ -29,7 +31,7 @@ func itsATrap(p Player) Player {
 		damage = randInt(3, 8)
 	}
 	p.Health -= damage
-	fmt.Printf("You lost %v health\n", damage)
+	color.Red("You lost %v health\n", damage)
 	return p
 }
 
@@ -39,7 +41,7 @@ func lockedDoor(p Player) Player {
 	if p.HasKey {
 		foundGold := randInt(10, 40)
 		fmt.Println("You use the key you found earlier...")
-		fmt.Printf("Inside the room you found a chest with %v gold in it!\n", foundGold)
+		color.Yellow("Inside the room you found a chest with %v gold in it!\n", foundGold)
 		p.Gold += foundGold
 	}
 	return p
@@ -52,13 +54,13 @@ func deadGuy(p Player) Player {
 	switch randInt(1, 4) {
 	case 1:
 		foundGold := randInt(1, 15)
-		fmt.Printf("You found %v gold in the backpack!\n", foundGold)
+		color.Yellow("You found %v gold in the backpack!\n", foundGold)
 		p.Gold += foundGold
 	case 2:
 		if p.HasKey {
 			foundPotions := randInt(1, 4)
 			p.Potions += foundPotions
-			fmt.Printf("You find %v potions!\n", foundPotions)
+			color.Cyan("You find %v potions!\n", foundPotions)
 		} else {
 			fmt.Println("You found a key in their pocket and wonder if it will be useful later.")
 			p.HasKey = true
@@ -66,7 +68,7 @@ func deadGuy(p Player) Player {
 	case 3:
 		foundPotions := randInt(1, 4)
 		p.Potions += foundPotions
-		fmt.Printf("You find %v potions!\n", foundPotions)
+		color.Cyan("You find %v potions!\n", foundPotions)
 	case 4:
 		fmt.Println("But they're empty...looks like someone already got to him.")
 	}

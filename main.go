@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/GeistInDerSH/clearscreen"
+	"github.com/fatih/color"
 )
 
 const version = "1.2"
@@ -61,7 +62,7 @@ func menu(p Player) {
 		clearscreen.ClearScreen()
 		menu(p)
 	default:
-		fmt.Println("Unknown option")
+		color.Red("Unknown option")
 		time.Sleep(3 * time.Second)
 		clearscreen.ClearScreen()
 		menu(p)
@@ -70,12 +71,12 @@ func menu(p Player) {
 
 func playerStatus(p Player) {
 	fmt.Println()
-	fmt.Printf("Health: %v\n", p.Health)
-	fmt.Printf("Experience Points: %v\n", p.XP)
-	fmt.Printf("Carried Gold: %v\n", p.Gold)
-	fmt.Printf("Weapons: %v\n", p.Weapons[0]) //only one weapon right now
-	fmt.Printf("Potions: %v\n", p.Potions)
-	fmt.Printf("Has Key: %v\n", p.HasKey)
+	color.Magenta("Health: %v\n", p.Health)
+	color.Magenta("Experience Points: %v\n", p.XP)
+	color.Magenta("Carried Gold: %v\n", p.Gold)
+	color.Magenta("Weapons: %v\n", p.Weapons[0]) //only one weapon right now
+	color.Magenta("Potions: %v\n", p.Potions)
+	color.Magenta("Has Key: %v\n", p.HasKey)
 	time.Sleep(3 * time.Second)
 	clearscreen.ClearScreen()
 	menu(p)
@@ -83,10 +84,11 @@ func playerStatus(p Player) {
 
 // generates a random integer between two integers and returns it
 func randInt(min, max int) int {
-	//fmt.Printf("min: %v\nmax: %v\n", min, max)
+	//color.Yellow("min: %v\nmax: %v\n", min, max)
 	num := rand.Intn(max - min)
-	//fmt.Printf("number generated: %v\n", num)
-	//fmt.Printf("plus min: %v\n\n", min+num)
+	//color.Yellow("number generated: %v\n", num)
+	//color.Yellow("plus min: %v\n\n", min+num)
+	//time.Sleep(2 * time.Second)
 
 	return min + num
 }
@@ -103,7 +105,7 @@ func explore(p Player) {
 		p = monsterAttack(p)
 	case 2:
 		foundGold := randInt(1, 15)
-		fmt.Printf("You found %v pieces of gold!\n", foundGold)
+		color.Yellow("You found %v pieces of gold!\n", foundGold)
 		p.Gold += foundGold
 	case 3:
 		p = itsATrap(p)
